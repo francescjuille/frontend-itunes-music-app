@@ -1,4 +1,5 @@
 import axios from "axios";
+import constants from "../constants"
 const ApiService = {
     async httpGet(url) {
         const headers = {
@@ -7,7 +8,7 @@ const ApiService = {
         }
         return await axios({
             method: 'get',
-            url: url,
+            url: constants.API_BASE_URL + url,
             headers: headers
         });
     },
@@ -19,7 +20,7 @@ const ApiService = {
         }
         return  axios({
             method: 'post',
-            url: url,
+            url: constants.API_BASE_URL + url,
             data: body,
             headers: headers
         });

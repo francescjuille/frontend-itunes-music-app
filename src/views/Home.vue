@@ -1,53 +1,57 @@
 <template>
    <div>
-        <br>
-        <h3 class="home-banner" style="text-align:center">Itunes Album 1.0</h3>
-        <div style="display:flex;justify-content:center">
-           <div>
-               <br>
-               <h3>Search the albums of your favourite Artist</h3>
-               <br>
-               <p>Example names of artists availables in Itunes: jack johnson</p>
-               <br>
-               <div class="flex">
-                <input  style="width:200px" placeholder="Artist Name" v-model="artistName" autofocus  type="text" >
-                <button v-on:click="searchArtistAlbums" style="margin-left:20px"  class="btn btn-primary" >Search albums</button>
+      <br>
+      <h3 class="home-banner centred-text" >Itunes Album 1.0</h3>
+      <div class="home">
+          <div>
+
+            <br>
+            <h3>Search the albums of your favourite Artist</h3>
+            <br>
+            <p>Example names of artists availables in Itunes: jack johnson</p>
+            <br>
+
+            <div class="flex home-search">
+              <input class="home-search-input"  placeholder="Artist Name" v-model="artistName" autofocus  type="text" >
+              <button v-on:click="searchArtistAlbums"  class="btn btn-primary home-search-btn" >Search albums</button>
+            </div>
+
+            <br><br>
+            <h4>Albums results:</h4>
+
+            <div class="card home-search-result">
+                <div v-if="artistsAlbums==null || artistsAlbums.length == 0">
+                    <p class="centred-text" >No Albums available</p>
                 </div>
-                <br><br>
-                <h4>Albums results:</h4>
-                <div class="card" style="padding:20px">
-                    <div v-if="artistsAlbums==null || artistsAlbums.length == 0">
-                        <p style="font-align:center">No Albums available</p>
+                <div v-else>
+                    <div class="flex">
+                        <input  class="home-artist-name-input" placeholder="Filter Results" v-model="filterResults" autofocus  type="text" >
                     </div>
-                    <div v-else>
-                        <div class="flex">
-                            <input  style="width:200px" placeholder="Filter Results" v-model="filterResults" autofocus  type="text" >
-                        </div>
-                    </div>
-                    <ListItem :artistsAlbumsToDisplay="artistsAlbumsToDisplay"/>
                 </div>
-                <br><br><br>
-           </div>
-        </div>    
-        
+                <ListItem :artistsAlbumsToDisplay="artistsAlbumsToDisplay"/>
+            </div>
+
+            <br><br><br>
+          </div>
+      </div>    
     </div>
 </template>
 
 <script>
   import ApiService from '../common/services/api.service';
   import ListItem from '../components/ListItem.vue';
+  import constants from "../common/constants"
+
   export default {
     components: {
         ListItem
     },
     data() {
-        
       return {
         artistName: "",
         artistsAlbums: null,
         artistsAlbumsToDisplay:[],
         filterResults:""
-        
       }
     },
     watch: {
@@ -58,28 +62,42 @@
     },
     methods: {
       async searchArtistAlbums() {
-        ApiService.httpPost("http://localhost:4000/api/artist-data/get-albums-by-artist-name",{artistName:this.artistName}).then(response => {
+        ApiService.httpPost(constants.GET_ITUNE_ALBUMS,{artistName:this.artistName}).then(response => {
             console.log("artistsAlbums:");
             console.log(response.data.data.albums);
             this.artistsAlbums = response.data.data.albums;
-            this.artistsAlbumsToDisplay = this.artistsAlbums
+            this.artistsAlbumsToDisplay = this.artistsAlbums;
             this.filterResults="";
         })
       },
-      filterAlbums(value) { //collectionName
-        this.artistsAlbumsToDisplay = this.artistsAlbums.filter(album => album.collectionName.trim().toLowerCase().includes(value.trim().toLowerCase()));
+      filterAlbums(value) {
+        this.artistsAlbumsToDisplay = this.artistsAlbums.filter(album => 
+            album.collectionName.trim().toLowerCase().includes(value.trim().toLowerCase()));
 
       }
-      },
+    },
 
     }
   
 </script>
 <style scoped>
-
+.home {
+  display:flex;
+  justify-content:center;
+}
 .home-banner {
     background-color:rgb(238, 186, 108);
     padding:20px;
+    text-align:center;
+}
+.home-search-input {
+  width:200px;
+}
+.home-search-btn{
+  margin-left:20px;
+}
+.home-search-result {
+  padding:20px;
 }
 
 .form-control {
@@ -92,5 +110,8 @@
 }
 .flex {
     display:flex;
+}
+.centred-text {
+  text-align:center
 }
 </style>

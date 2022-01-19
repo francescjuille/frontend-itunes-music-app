@@ -1,13 +1,13 @@
 <template>
     <div>
         <br>
-        <h3 class="login-banner" style="text-align:center">Welcome to Itunes Album Filter 1.0 <span style="font-size:14px"> Created by Francesc Juille</span></h3>
-        <div style="display:flex;justify-content:center">
-            <div style="width:300px;margin-top:50px">
-                <div class="card" style="padding:20px">
+        <h3 class="login-banner centred-text">Welcome to Itunes Album Filter 1.0 <span style="font-size:14px"> Created by Francesc Juille</span></h3>
+        <div class="login-container" >
+            <div>
+                <div class="card login-form">
                     <form action="#" @submit.prevent="login">
 
-                        <p style="text-align:center">Login</p>
+                        <p class="centred-text">Login</p>
                         <div class="mb-3">
                             <input class="form-control" placeholder="Email" v-model="form.email" autofocus  type="text" id="login-email" required>
                         </div>
@@ -17,8 +17,9 @@
                         <br>
                         <div class="flex-center">
                             <button type="submit" class="btn btn-primary" >Login</button>
-                        </div>    
-                        <p style="margin-top:30px">Demo login:</p>
+                        </div>   
+                        <br> 
+                        <p>Demo login:</p>
                         <p>user: demo@demo.com</p>
                         <p>password: root</p>
                     </form>    
@@ -34,6 +35,7 @@
 
 <script>
 import ApiService from '../common/services/api.service'
+  import constants from "../common/constants"
 
   export default {
     data() {
@@ -47,11 +49,11 @@ import ApiService from '../common/services/api.service'
     },
     methods: {
       login() {
-        ApiService.httpPost("http://localhost:4000/api/user/login",{email:this.form.email,password:this.form.password}).then(response => {
+        ApiService.httpPost(constants.LOGIN,{email:this.form.email,password:this.form.password}).then(response => {
             console.log(response.data.data);
             this.$router.push('/home');
         }).catch(e=>{
-            alert("Incorrect credentials"+e)
+            alert("Incorrect credentials:\n"+e.message)
         })
       },
       loginAsGuest() {
@@ -68,6 +70,10 @@ import ApiService from '../common/services/api.service'
     padding:20px;
 }
 
+.login-form {
+    padding:20px
+}
+
 .form-control {
   margin: 10px 0;
 }
@@ -75,5 +81,18 @@ import ApiService from '../common/services/api.service'
 .flex-center {
     display:flex;
     justify-content:center;
+}
+
+.centred-text {
+  text-align:center
+}
+
+.login-container {
+    display:flex;
+    justify-content:center;
+}
+
+.login-container > div {
+    width:300px;margin-top:50px
 }
 </style>

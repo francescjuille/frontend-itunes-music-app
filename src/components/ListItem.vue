@@ -4,10 +4,10 @@
         <br>
         <div class="flex">
             <img :src="album.collectionImage">
-            <div style="margin-left:10px">
+            <div class="item-data">
                 <h5>{{album.collectionName}}</h5>
-                <h6>{{album.artistName}}</h6>
-                <p>Price: {{album.collectionPrice}}€</p>
+                <p>{{album.artistName}}</p>
+                <p><b>Price: {{album.collectionPrice}}€</b></p>
             </div>
         </div>
     </div>
@@ -31,5 +31,8 @@ export default {
 }
 .flex {
     display:flex;
+}
+.item-data {
+  margin-left:10px;
 }
 </style>
