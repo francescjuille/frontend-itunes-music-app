@@ -9,7 +9,7 @@ HOME: in home page you can search any autor in search input and it will display 
 
 ### Test the App
 You need to make a clone of api backend of this project and run server in your local environment for be able to test full app
-api repo:
+api repo: https://github.com/francescjuille/backend-api-itunes-music-app.git
 
 ### Run unit tests
 npm run test:unit
