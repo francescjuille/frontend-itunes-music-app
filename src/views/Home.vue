@@ -24,17 +24,7 @@
                             <input  style="width:200px" placeholder="Filter Results" v-model="filterResults" autofocus  type="text" >
                         </div>
                     </div>
-                    <div v-for="album in artistsAlbumsToDisplay" :key="album.collectionId">
-                        <br>
-                        <div class="flex">
-                            <img :src="album.collectionImage">
-                            <div style="margin-left:10px">
-                                <h5>{{album.collectionName}}</h5>
-                                <h6>{{album.artistName}}</h6>
-                                <p>Price: {{album.collectionPrice}}€</p>
-                            </div>
-                        </div>
-                    </div>
+                    <ListItem :artistsAlbumsToDisplay="artistsAlbumsToDisplay"/>
                 </div>
                 <br><br><br>
            </div>
@@ -45,13 +35,17 @@
 
 <script>
   import ApiService from '../common/services/api.service';
+  import ListItem from '../components/ListItem.vue';
   export default {
+    components: {
+        ListItem
+    },
     data() {
         
       return {
         artistName: "",
         artistsAlbums: null,
-        artistsAlbumsToDisplay:null,
+        artistsAlbumsToDisplay:[],
         filterResults:""
         
       }
@@ -68,7 +62,8 @@
             console.log("artistsAlbums:");
             console.log(response.data.data.albums);
             this.artistsAlbums = response.data.data.albums;
-            this.artistsAlbumsToDisplay = {...this.artistsAlbums}
+            this.artistsAlbumsToDisplay = this.artistsAlbums
+            this.filterResults="";
         })
       },
       filterAlbums(value) { //collectionName
