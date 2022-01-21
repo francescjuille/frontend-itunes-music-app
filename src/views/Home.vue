@@ -8,7 +8,7 @@
             <br>
             <h3>Search the albums of your favourite Artist</h3>
             <br>
-            <p>Example names of artists availables in Itunes: jack johnson</p>
+            <p>Example names of artists availables in Itunes: The Beatles</p>
             <br>
 
             <div class="flex home-search">
